@@ -24,7 +24,7 @@ jobs:
       run: python generate_xml.py
 
     - name: Upload XML as artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: videos-xml
         path: output/videos.xml
