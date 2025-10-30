@@ -6,12 +6,19 @@ import os
 playlist_url = "https://www.youtube.com/playlist?list=PLbxwMdSNkTatJqrlpHhw4mu9as2CQurn7"
 
 # XML çıkışı için klasör
-os.makedirs("output", exist_ok=True)
+output_dir = os.path.join(os.getcwd(), "output")
+os.makedirs(output_dir, exist_ok=True)
+xml_path = os.path.join(output_dir, "videos.xml")
 
 # yt-dlp ile playlist bilgisini çek
-ydl_opts = {'quiet': True, 'extract_flat': True}
+ydl_opts = {'quiet': False, 'extract_flat': True}  # False yaparak log görebiliriz
 with yt_dlp.YoutubeDL(ydl_opts) as ydl:
     info = ydl.extract_info(playlist_url, download=False)
+
+# Playlist entries kontrolü
+if 'entries' not in info or not info['entries']:
+    print("Playlist boş veya veri alınamadı!")
+    exit(1)
 
 videos = info['entries']
 
@@ -23,6 +30,6 @@ for v in videos:
     video.set("src", f"https://www.youtube.com/watch?v={v['id']}")
 
 tree = ET.ElementTree(root)
-tree.write("output/videos.xml", encoding="UTF-8", xml_declaration=True)
+tree.write(xml_path, encoding="UTF-8", xml_declaration=True)
 
-print(f"XML başarıyla oluşturuldu: output/videos.xml")
+print(f"XML başarıyla oluşturuldu: {xml_path}")
