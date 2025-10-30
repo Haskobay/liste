@@ -1,0 +1,30 @@
+name: Generate YouTube XML
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.11
+
+    - name: Install dependencies
+      run: pip install pytube
+
+    - name: Generate XML
+      run: python generate_xml.py
+
+    - name: Upload XML as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: videos-xml
+        path: output/videos.xml
