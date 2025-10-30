@@ -1,8 +1,6 @@
-name: Generate YouTube XML
+name: Generate YouTube Playlist XML
 
 on:
-  push:
-    branches: [ main ]
   workflow_dispatch:
 
 jobs:
@@ -10,21 +8,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+      - name: Checkout Repo
+        uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: 3.11
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
 
-    - name: Install dependencies
-      run: pip install pytube
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install yt-dlp
 
-    - name: Generate XML
-      run: python generate_xml.py
+      - name: Generate XML
+        run: |
+          python generate_xml.py
 
-    - name: Upload XML as artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: videos-xml
-        path: output/videos.xml
+      - name: Upload XML artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: videos-xml
+          path: output/videos.xml
