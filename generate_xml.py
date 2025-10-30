@@ -3,7 +3,7 @@ import xml.etree.ElementTree as ET
 import os
 
 # Playlist URL
-playlist_url = "https://www.youtube.com/playlist?list=PL9AtecotAGkSOIstGpaWmhIulllyW7ZSU"
+playlist_url = "https://www.youtube.com/playlist?list=PL55Chmc8QwKUbxny7HSHCedYwIUBgh0ME"
 
 # XML çıkışı için klasör
 output_dir = os.path.join(os.getcwd(), "output")
